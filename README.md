@@ -28,6 +28,20 @@ typst watch main.typ
 
 In the web app, choose **Start from template** and search for `esi-pfe`.
 
+### Before it is on Typst Universe
+
+Clone this repository into Typst's local package directory, then run the same `typst init`
+command:
+
+```sh
+# Windows (PowerShell)
+git clone https://github.com/Chamiln17/esi-pfe "$env:APPDATA\typst\packages\preview\esi-pfe\0.1.0"
+# Linux
+git clone https://github.com/Chamiln17/esi-pfe ~/.local/share/typst/packages/preview/esi-pfe/0.1.0
+# macOS
+git clone https://github.com/Chamiln17/esi-pfe ~/Library/Application\ Support/typst/packages/preview/esi-pfe/0.1.0
+```
+
 Fill in the metadata in `main.typ`, then write your chapters in `chapters/`. `main.typ` is the
 only place that controls chapter order. To add a chapter, create a file and `#include` it there.
 

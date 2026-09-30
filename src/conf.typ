@@ -89,13 +89,11 @@
     numbering: "1",
     header: context {
       let current_page = here().page()
-      // Sectioning units that may name the running header: any level-1 heading
-      // (intro, conclusion, Part dividers, appendices) and numbered level-2
-      // headings (chapters, which sit one level under their Part). Level-2
-      // *unnumbered* headings are intro/conclusion sections, so they are skipped.
+      // Sectioning units that may name the running header: chapters, intro,
+      // conclusion, Part dividers, and appendices. All have depth 1; chapters
+      // inside `numbered_part` sit at level 2 only through the heading offset.
       let candidates = query(heading).filter(h => (
-        h.location().page() <= current_page
-          and (h.level == 1 or (h.level == 2 and h.numbering != none))
+        h.location().page() <= current_page and h.depth == 1
       ))
 
       if candidates.len() > 0 {
