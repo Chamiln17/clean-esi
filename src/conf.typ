@@ -1,7 +1,7 @@
 // src/conf.typ - ESI Algiers thesis template
 // Core configuration following ESI standards
 
-#import "styles.typ": apply_styles, chapter_heading, section_heading, subsection_heading, subsubsection_heading
+#import "styles.typ": apply-styles, chapter-heading, section-heading, subsection-heading, subsubsection-heading
 #import "frontmatter.typ": *
 #import "utils.typ": *
 #import "colors.typ": *
@@ -17,20 +17,20 @@
   title: "Thesis Title",
   authors: (),
   supervisor: none,
-  co_supervisor: (), // Array of co-supervisor names
-  report_type: "Final Year Thesis",
+  co-supervisor: (), // Array of co-supervisor names
+  report-type: "Final Year Thesis",
   institution: "National Higher School of Computer Science",
   option: "Computer Systems (SIQ)",
-  degree_type: "State Engineer Degree in Computer Science",
-  host_organization: "",
+  degree-type: "State Engineer Degree in Computer Science",
+  host-organization: "",
   promotion: "2024/2025",
-  defense_date: "XX/XX/2025", // Defense date (format: DD/MM/YYYY)
+  defense-date: "XX/XX/2025", // Defense date (format: DD/MM/YYYY)
   jury: (),
   logo: none,
   // ─────────────────────────────────────────────────────────────────────────────
   // PAGE MARGINS (ESI Standard: 2.5cm all around)
   // ─────────────────────────────────────────────────────────────────────────────
-  page_margin: (top: 2.5cm, bottom: 2.5cm, left: 2.5cm, right: 2.5cm),
+  page-margin: (top: 2.5cm, bottom: 2.5cm, left: 2.5cm, right: 2.5cm),
   // Document content
   doc,
 ) = {
@@ -41,20 +41,20 @@
   // COVER PAGE
   // ══════════════════════════════════════════════════════════════════════════════
 
-  esi_cover_page(
+  esi-cover-page(
     title: title,
     authors: authors,
     supervisor: supervisor,
-    co_supervisors: co_supervisor,
-    report_type: report_type,
+    co-supervisors: co-supervisor,
+    report-type: report-type,
     institution: institution,
     option: option,
-    degree_type: degree_type,
-    host_organization: host_organization,
+    degree-type: degree-type,
+    host-organization: host-organization,
     promotion: promotion,
-    defense_date: defense_date,
+    defense-date: defense-date,
     jury: jury,
-    logo_image: logo,
+    logo-image: logo,
   )
 
   // ══════════════════════════════════════════════════════════════════════════════
@@ -63,7 +63,7 @@
 
   set page(
     paper: "a4",
-    margin: page_margin,
+    margin: page-margin,
     numbering: "I",
     header: none,
     footer: context {
@@ -74,7 +74,7 @@
   counter(page).update(1)
 
   // Apply all styles
-  show: apply_styles
+  show: apply-styles
 
   doc
 }
@@ -84,34 +84,34 @@
 // Wraps main chapters with Arabic page numbering and running header
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let main_content(body) = {
+#let main-content(body) = {
   set page(
     numbering: "1",
     header: context {
-      let current_page = here().page()
+      let current-page = here().page()
       // Sectioning units that may name the running header: chapters, intro,
       // conclusion, Part dividers, and appendices. All have depth 1; chapters
-      // inside `numbered_part` sit at level 2 only through the heading offset.
+      // inside `numbered-part` sit at level 2 only through the heading offset.
       let candidates = query(heading).filter(h => (
-        h.location().page() <= current_page and h.depth == 1
+        h.location().page() <= current-page and h.depth == 1
       ))
 
       if candidates.len() > 0 {
         let current = candidates.last()
-        if current.location().page() != current_page {
-          let header_title = if current.numbering == none {
+        if current.location().page() != current-page {
+          let header-title = if current.numbering == none {
             // intro / conclusion / Part divider titles
             [#current.body]
           } else if current.numbering == "A.1" {
-            let appendix_no = counter(heading).at(current.location()).first()
-            [Appendix #numbering("A", appendix_no): #current.body]
+            let appendix-no = counter(heading).at(current.location()).first()
+            [Appendix #numbering("A", appendix-no): #current.body]
           } else {
-            // Numbered chapter: level 1 without parts, level 2 inside `numbered_part`.
-            let chapter_no = counter(heading).at(current.location()).at(current.level - 1)
-            [Chapter #chapter_no: #current.body]
+            // Numbered chapter: level 1 without parts, level 2 inside `numbered-part`.
+            let chapter-no = counter(heading).at(current.location()).at(current.level - 1)
+            [Chapter #chapter-no: #current.body]
           }
           align(left)[
-            #text(size: 10pt, weight: "bold")[#header_title]
+            #text(size: 10pt, weight: "bold")[#header-title]
           ]
           v(-0.3em)
           line(length: 100%, stroke: 0.7pt + black)
@@ -131,7 +131,7 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // PART WRAPPER
 // Wraps the chapters belonging to one Part. The Part itself is a real level-1
-// heading (see `part_divider` below), so it owns a collapsible PDF
+// heading (see `part-divider` below), so it owns a collapsible PDF
 // bookmark. Here we shift the wrapped chapters one level down (chapter → level 2,
 // section → level 3, …) so they nest *under* that Part in the PDF outline, while:
 //   • dropping the Part-level component from the numbering keeps chapters 1..N
@@ -143,7 +143,7 @@
 //     keeps "Table N.M" correct.
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let numbered_part(body) = {
+#let numbered-part(body) = {
   set heading(offset: 1, numbering: (..n) => {
     let nums = n.pos().slice(1) // drop Part-level slot
     if nums.len() > 0 { numbering("1.1.1", ..nums) }
@@ -151,10 +151,10 @@
 
   show heading.where(level: 1): set heading(supplement: [Part])
   show heading.where(level: 2): set heading(supplement: [Chapter])
-  show heading.where(level: 2): chapter_heading
-  show heading.where(level: 3): section_heading
-  show heading.where(level: 4): subsection_heading
-  show heading.where(level: 5): subsubsection_heading
+  show heading.where(level: 2): chapter-heading
+  show heading.where(level: 3): section-heading
+  show heading.where(level: 4): subsection-heading
+  show heading.where(level: 5): subsubsection-heading
 
   show figure.where(kind: table): set figure(numbering: n => {
     numbering("1.1", counter(heading).get().at(1), n)
@@ -169,11 +169,11 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // PART DIVIDER
 // A real level-1, unnumbered heading so it owns a collapsible PDF bookmark and a
-// Contents entry (its chapters nest under it via `numbered_part`). A locally
+// Contents entry (its chapters nest under it via `numbered-part`). A locally
 // scoped show rule renders the heading as a full divider page.
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let part_divider(label, title, summary) = [
+#let part-divider(label, title, summary) = [
   #show heading.where(level: 1): it => page(header: none, footer: none)[
     #v(1fr)
     #align(center)[
@@ -198,10 +198,10 @@
 // Applies appendix numbering and a simpler first-level heading style locally.
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let appendix_content(body) = {
+#let appendix-content(body) = {
   show figure.where(kind: table): set figure(numbering: n => {
-    let appendix_no = counter(heading).get().at(0)
-    numbering("A.1", appendix_no, n)
+    let appendix-no = counter(heading).get().at(0)
+    numbering("A.1", appendix-no, n)
   })
 
   show heading.where(level: 1): it => context {
@@ -230,5 +230,5 @@
 // RE-EXPORTS
 // ══════════════════════════════════════════════════════════════════════════════
 
-#import "frontmatter.typ": list_of_figures, list_of_tables, table_of_contents
-#import "utils.typ": definition, divider, info_box, quote_block, todo, warning_box
+#import "frontmatter.typ": list-of-figures, list-of-tables, table-of-contents
+#import "utils.typ": definition, divider, info-box, quote-block, todo, warning-box

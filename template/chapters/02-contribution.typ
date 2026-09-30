@@ -1,4 +1,4 @@
-#import "@preview/esi-pfe:0.1.0": thesis-algorithm, thesis-code-block, warning_box
+#import "@preview/clean-esi:0.1.0": thesis-algorithm, thesis-code-block, warning-box
 
 = Contribution <ch:contribution>
 
@@ -29,6 +29,6 @@ def main():
 ```
 ]
 
-#warning_box[Note][
+#warning-box[Note][
   Keep evaluation claims backed by the results you report.
 ]

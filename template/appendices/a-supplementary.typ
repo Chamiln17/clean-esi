@@ -1,4 +1,4 @@
-#import "@preview/esi-pfe:0.1.0": thesis-table
+#import "@preview/clean-esi:0.1.0": thesis-table
 
 = Supplementary Material <app:supplementary>
 

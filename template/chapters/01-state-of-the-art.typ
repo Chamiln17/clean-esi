@@ -1,11 +1,11 @@
-#import "@preview/esi-pfe:0.1.0": info_box, thesis-table
+#import "@preview/clean-esi:0.1.0": info-box, thesis-table
 
 = State of the Art <ch:state-of-the-art>
 
 == Background
 Cite sources from `refs.bib` with `@key`, for example @example2024.
 
-#info_box[Tip][
+#info-box[Tip][
   Label chapters `<ch:...>`, figures `<fig:...>`, and tables `<tab:...>`, then reference them with `@label`.
 ]
 

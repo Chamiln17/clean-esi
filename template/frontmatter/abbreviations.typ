@@ -1,6 +1,6 @@
-#import "@preview/esi-pfe:0.1.0": abbreviations_page
+#import "@preview/clean-esi:0.1.0": abbreviations-page
 
-#abbreviations_page((
+#abbreviations-page((
   ("ESI", "École nationale Supérieure d'Informatique"),
   ("PFE", "Projet de Fin d'Études"),
 ))

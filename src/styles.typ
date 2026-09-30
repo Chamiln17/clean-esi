@@ -7,17 +7,17 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // HEADING RENDERERS (shared)
 // Extracted so the same visual rules can be applied at a shifted level inside the
-// Part wrappers (`numbered_part` in conf.typ), where chapters live at level 2,
+// Part wrappers (`numbered-part` in conf.typ), where chapters live at level 2,
 // sections at level 3, etc. Keeping them here means the two regions can never
 // drift apart stylistically.
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let chapter_top_space = 4.0em
-#let chapter_label_gap = 26pt
-#let chapter_after_space = 24pt
+#let chapter-top-space = 4.0em
+#let chapter-label-gap = 26pt
+#let chapter-after-space = 24pt
 
 // Chapter-style heading (24pt). Numbered → "Chapter N" + title; else just title.
-#let chapter_heading(it) = context {
+#let chapter-heading(it) = context {
   set par(first-line-indent: 0pt, justify: false)
   set align(if text.dir == rtl { right } else { left })
   pagebreak(weak: true)
@@ -25,20 +25,20 @@
   if it.numbering != none {
     counter(figure.where(kind: table)).update(0)
     counter(figure.where(kind: "algorithm")).update(0)
-    v(chapter_top_space)
+    v(chapter-top-space)
     text(size: 24pt, weight: "bold")[Chapter #counter(heading).display()]
-    v(chapter_label_gap)
+    v(chapter-label-gap)
     text(size: 24pt, weight: "bold")[#it.body]
-    v(chapter_after_space)
+    v(chapter-after-space)
   } else {
-    v(chapter_top_space)
+    v(chapter-top-space)
     text(size: 24pt, weight: "bold")[#it.body]
-    v(chapter_after_space)
+    v(chapter-after-space)
   }
 }
 
 // Section-style heading (18pt).
-#let section_heading(it) = {
+#let section-heading(it) = {
   set par(first-line-indent: 0pt, justify: false)
   block(above: 20pt, below: 12pt, sticky: true)[
     #text(size: 18pt, weight: "bold")[
@@ -52,7 +52,7 @@
 }
 
 // Subsection-style heading (14pt).
-#let subsection_heading(it) = {
+#let subsection-heading(it) = {
   set par(first-line-indent: 0pt, justify: false)
   block(above: 16pt, below: 9pt, sticky: true)[
     #text(size: 14pt, weight: "bold")[
@@ -66,7 +66,7 @@
 }
 
 // Sub-subsection-style heading (12pt bold italic).
-#let subsubsection_heading(it) = {
+#let subsubsection-heading(it) = {
   set par(first-line-indent: 0pt, justify: false)
   block(above: 10pt, below: 4pt, sticky: true)[
     #text(size: 12pt, weight: "bold", style: "italic")[
@@ -81,10 +81,10 @@
 
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN STYLE FUNCTION
-// Usage: #show: apply_styles
+// Usage: #show: apply-styles
 // ══════════════════════════════════════════════════════════════════════════════
 
-#let apply_styles(body) = {
+#let apply-styles(body) = {
   // ─────────────────────────────────────────────────────────────────────────────
   // ESI typography & spacing (centralized knobs)
   // - A4, margins handled in `lib/conf.typ`
@@ -92,16 +92,16 @@
   // - Line spacing target: ~1.5
   // These values are intentionally easy to tune if ESI updates guidance.
   // ─────────────────────────────────────────────────────────────────────────────
-  let space_xs = 0.2em
-  let space_sm = 0.35em
-  let space_md = 0.5em
-  let space_lg = 0.7em
-  let space_xl = 1.1em
-  let display_above = 1.15em
-  let display_below = 1.15em
-  let caption_gap = 0.42em
-  let caption_size = 12pt
-  let list_before_space = 0.8em
+  let space-xs = 0.2em
+  let space-sm = 0.35em
+  let space-md = 0.5em
+  let space-lg = 0.7em
+  let space-xl = 1.1em
+  let display-above = 1.15em
+  let display-below = 1.15em
+  let caption-gap = 0.42em
+  let caption-size = 12pt
+  let list-before-space = 0.8em
 
   // ════════════════════════════════════════════════════════════════════════════
   // TYPOGRAPHY - LaTeX Style (12pt, justified, French)
@@ -131,12 +131,12 @@
   set heading(numbering: "1.1.1")
 
   // Level 1: Chapters · 2: Sections · 3: Subsections · 4: Sub-subsections.
-  // Renderers are shared with the Part wrappers (see `numbered_part`).
+  // Renderers are shared with the Part wrappers (see `numbered-part`).
   show heading.where(level: 1): set heading(supplement: [Chapter])
-  show heading.where(level: 1): chapter_heading
-  show heading.where(level: 2): section_heading
-  show heading.where(level: 3): subsection_heading
-  show heading.where(level: 4): subsubsection_heading
+  show heading.where(level: 1): chapter-heading
+  show heading.where(level: 2): section-heading
+  show heading.where(level: 3): subsection-heading
+  show heading.where(level: 4): subsubsection-heading
 
   // ════════════════════════════════════════════════════════════════════════════
   // CODE BLOCKS
@@ -150,8 +150,8 @@
       inset: 1em,
       radius: 4pt,
       width: 100%,
-      above: space_sm,
-      below: space_sm,
+      above: space-sm,
+      below: space-sm,
     )[#it]
   }
 
@@ -180,21 +180,21 @@
   // Figures: Caption BELOW
   show figure.where(kind: image): it => {
     set align(center)
-    block(width: 100%, above: display_above, below: display_below)[
+    block(width: 100%, above: display-above, below: display-below)[
       #it.body
-      #v(caption_gap)
+      #v(caption-gap)
       #set par(first-line-indent: 0pt)
-      #text(size: caption_size)[*Figure #it.counter.display(it.numbering):* #it.caption.body]
+      #text(size: caption-size)[*Figure #it.counter.display(it.numbering):* #it.caption.body]
     ]
   }
 
   // Tables: Caption ABOVE
   show figure.where(kind: table): it => {
     set align(center)
-    block(width: 100%, above: display_above, below: display_below)[
+    block(width: 100%, above: display-above, below: display-below)[
       #set par(first-line-indent: 0pt)
-      #text(size: caption_size)[*Table #it.counter.display(it.numbering):* #it.caption.body]
-      #v(caption_gap)
+      #text(size: caption-size)[*Table #it.counter.display(it.numbering):* #it.caption.body]
+      #v(caption-gap)
       #it.body
     ]
   }
@@ -202,12 +202,12 @@
   // Algorithms: Caption BELOW
   show figure.where(kind: "algorithm"): it => {
     set align(center)
-    block(width: 100%, above: display_above, below: display_below)[
+    block(width: 100%, above: display-above, below: display-below)[
       #it.body
       #if it.caption != none {
-        v(caption_gap)
+        v(caption-gap)
         set par(first-line-indent: 0pt)
-        text(size: caption_size)[*Algorithm #it.counter.display(it.numbering):* #it.caption.body]
+        text(size: caption-size)[*Algorithm #it.counter.display(it.numbering):* #it.caption.body]
       }
     ]
   }
@@ -238,8 +238,8 @@
 
   // Option A: enforce a consistent vertical gap before lists/enums,
   // independent of whether the author inserted a blank line.
-  show list: it => block(above: list_before_space)[#it]
-  show enum: it => block(above: list_before_space)[#it]
+  show list: it => block(above: list-before-space)[#it]
+  show enum: it => block(above: list-before-space)[#it]
 
   show cite: it => text(weight: "semibold")[#it]
 

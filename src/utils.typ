@@ -3,7 +3,7 @@
 #import "colors.typ": *
 
 // Create a highlighted info box
-#let info_box(title, content) = {
+#let info-box(title, content) = {
   block(
     width: 100%,
     fill: background,
@@ -18,7 +18,7 @@
 }
 
 // Create a warning box
-#let warning_box(title, content) = {
+#let warning-box(title, content) = {
   block(
     width: 100%,
     fill: rgb("#fffbeb"),
@@ -43,7 +43,7 @@
 }
 
 // Create a quote block with attribution
-#let quote_block(content, author: none) = {
+#let quote-block(content, author: none) = {
   block(
     width: 100%,
     fill: luma(248),
